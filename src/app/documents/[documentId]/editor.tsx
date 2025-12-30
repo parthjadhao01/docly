@@ -10,37 +10,48 @@ import {TableCell} from "@tiptap/extension-table-cell";
 import {Table} from "@tiptap/extension-table";
 import Image from '@tiptap/extension-image'
 import {ImageResize} from "tiptap-extension-resize-image";
+import useEditorStore from "@/app/store/use-editor-store";
+import {Underline} from "@tiptap/extension-underline";
+import {FontFamily} from "@tiptap/extension-font-family";
+import {TextStyle} from "@tiptap/extension-text-style";
 
 function Editor() {
+    const {setEditor} = useEditorStore()
+
     const editor = useEditor({
+        onCreate({editor}){
+            setEditor(editor)
+        },
+        onDestroy(){
+            setEditor(null);
+        },
+        onUpdate({editor}){
+            setEditor(editor)
+        },
+        onSelectionUpdate({editor}){
+            setEditor(editor)
+        },
+        onTransaction({editor}){
+            setEditor(editor)
+        },
+        onFocus({editor}){
+            setEditor(editor)
+        },
+        onBlur({editor}){
+            setEditor(editor)
+        },
+        onContentError({editor}){
+            setEditor(editor)
+        },
         editorProps : {
             attributes : {
                 style : "padding-left: 56px; padding-right : 56px",
                 class : "focus:outline-none print:border-0 bg-white border border-[#C7C7C7] flex flex-col min-h-[1054px] w-[816px] pt-10 pb-10"
             }
         },
-        extensions : [StarterKit,Image,ImageResize,Table,TableCell,TableHeader,TableRow,TaskList,TaskItem.configure({
+        extensions : [StarterKit,FontFamily,TextStyle,Underline,Image,ImageResize,Table,TableCell,TableHeader,TableRow,TaskList,TaskItem.configure({
             nested : true
         })],
-        content: `
-        <table>
-          <tbody>
-            <tr>
-              <th>Name</th>
-              <th colspan="3">Description</th>
-            </tr>
-            <tr>
-              <td>Cyndi Lauper</td>
-              <td>Singer</td>
-              <td>Songwriter</td>
-              <td>Actress</td>
-            </tr>
-          </tbody>
-        </table>
-        <p>This is a basic example of implementing images. Drag to re-order.</p>
-        <img src="https://placehold.co/600x400" />
-        <img src="https://placehold.co/800x400" />
-      `,
     });
     return (
         <div className="size-full overflow-x-auto bg-[#F9FBFD] print:p-0 print:bg-white print:overflow-visible">
