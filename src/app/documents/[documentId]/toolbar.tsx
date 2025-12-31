@@ -1,5 +1,5 @@
 "use client"
-import React, {ReactNode} from 'react'
+import React, {ReactNode, useState} from 'react'
 import {
     BoldIcon,
     ItalicIcon,
@@ -13,7 +13,8 @@ import {
     UnderlineIcon,
     Undo2Icon,
     ChevronsDownIcon,
-    HighlighterIcon
+    HighlighterIcon,
+    Link2Icon, ImageIcon, UploadIcon, SearchIcon
 } from "lucide-react";
 import {Button} from "@/components/ui/button";
 import {cn} from "@/lib/utils";
@@ -25,6 +26,14 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
+import {Input} from "@/components/ui/input";
+import {
+    Dialog,
+    DialogContent,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle
+} from "@/components/ui/dialog";
 import {type Level} from "@tiptap/extension-heading"
 import { type ColorResult, SketchPicker} from "react-color"
 
@@ -233,6 +242,114 @@ function FontFamilyButton(){
     )
 }
 
+function LinkButton(){
+    const {editor} = useEditorStore();
+    const [value,setValue] = useState(editor?.getAttributes("link").href || "");
+    const onChange = (href : string) => {
+        editor?.chain().focus().extendMarkRange("link").setLink({href}).run();
+        setValue("");
+    }
+
+    return <DropdownMenu onOpenChange={(open)=>{
+        if (open){
+            setValue(editor?.getAttributes("link").href || "")}
+        }
+    }>
+        <DropdownMenuTrigger asChild>
+            <button
+                className="text-sm h-7 min-w-7 p-1 flex flex-col items-center justify-center rounded-sm hover:bg-neutral-200/80"
+            >
+                <Link2Icon className="size-4"/>
+            </button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="p-2.5 flex items-center gap-x-2">
+            <Input
+                placeholder={"Paste the link"}
+                value={value}
+                onChange={(e)=> setValue(e.target.value)}
+            />
+            <Button onClick={()=>onChange(value)}>
+                Apply
+            </Button>
+        </DropdownMenuContent>
+    </DropdownMenu>
+}
+
+function ImageButton(){
+    const {editor} = useEditorStore();
+    const [imageUrl,setImageUrl] = useState("");
+    const [isDialogOpen,setIsDialogOpen] = useState(false)
+    const onChange = (src : string) => {
+        editor?.chain().focus().setImage({src}).run()
+    }
+
+    const onUpload = () => {
+        const input = document.createElement("input")
+        input.type = "file"
+        input.accept = "image/*"
+        input.onchange = (e) => {
+            const file = (e.target as HTMLInputElement).files?.[0];
+            if (file){
+                const imageUrl = URL.createObjectURL(file);
+                onChange(imageUrl);
+            }
+        }
+        input.click();
+    }
+
+    const handleImageUrlSubmit = () => {
+        if (imageUrl){
+            onChange(imageUrl);
+            setImageUrl(imageUrl);
+            setIsDialogOpen(false)
+        }
+    }
+
+    return <>
+        <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+                <button
+                    className="text-sm h-7 min-w-7 p-1 flex flex-col items-center justify-center rounded-sm hover:bg-neutral-200/80"
+                >
+                    <ImageIcon className="size-4"/>
+                </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="p-2.5 flex items-center gap-x-2">
+                <DropdownMenuItem onClick={onUpload}>
+                    <UploadIcon className="size-4 mr-2"/>
+                    Upload
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                    <SearchIcon className="size-4 mr-2"/>
+                    Paste image url
+                </DropdownMenuItem>
+            </DropdownMenuContent>
+        </DropdownMenu>
+        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+            <DialogContent>
+                <DialogHeader>
+                    <DialogTitle>Insert Image URL</DialogTitle>
+                </DialogHeader>
+                <Input
+                    placeholder="Insert Image URL"
+                    value={imageUrl}
+                    onChange={(e)=> setImageUrl(e.target.value)}
+                    onKeyDown={(e)=> {
+                            if (e.key === "Enter") {handleImageUrlSubmit();}
+                        }
+                    }
+                >
+
+                </Input>
+                <DialogFooter>
+                    <Button onClick={handleImageUrlSubmit}>Insert</Button>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
+    </>
+}
+
+
 function Toolbar() {
     const {editor} = useEditorStore()
     const sections: {
@@ -326,8 +443,8 @@ function Toolbar() {
         <TextColorButton/>
         <HighlightColorButton/>
         <Separator orientation={"vertical"} className="h-6 bg-neutral-300"/>
-        {/*Todo : Link*/}
-        {/*Todo : Image*/}
+        <LinkButton/>
+        <ImageButton/>
         {/*Todo : Align*/}
         {/*Todo : Line Height*/}
         {/*Todo : List*/}
