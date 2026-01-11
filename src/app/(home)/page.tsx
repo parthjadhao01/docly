@@ -1,14 +1,18 @@
-import Image from "next/image";
-import {Button} from "@/components/ui/button";
-import Navbar from "./navbar"
+import React from 'react'
+import Navbar from "@/app/(home)/components/navbar";
+import TemplateGallery from "@/app/(home)/components/template-gallery";
 
-export default function Home() {
-  return (
-    <div className="min-h-screen flex flex-col">
-        <div className="fixed top-0 left-0 right-0 z-10 h-16 bg-white p-4">
-            <Navbar />
+function Page() {
+    return (
+        <div className="min-h-screen flex flex-col">
+            <div className="fixed top-0 left-0 right-0 z-10 h-16 bg-white p-4">
+                <Navbar/>
+            </div>
+            <div className="mt-16">
+                <TemplateGallery/>
+            </div>
         </div>
-        <Button>Click Me</Button>
-    </div>
-  );
+    )
 }
+
+export default Page
