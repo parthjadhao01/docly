@@ -2,11 +2,12 @@
 import React from 'react'
 import Navbar from "@/app/(home)/components/navbar";
 import TemplateGallery from "@/app/(home)/components/template-gallery";
-import {useQuery} from "convex/react";
+import {usePaginatedQuery, useQuery} from "convex/react";
 import {api} from "../../../convex/_generated/api";
+import DocumentsTable from "@/app/(home)/components/documents-table";
 
 function Page() {
-    const documents = useQuery(api.documents.get)
+    const {results,status,loadMore} = usePaginatedQuery(api.documents.get,{},{initialNumItems : 5})
 
     return (
         <div className="min-h-screen flex flex-col">
@@ -15,6 +16,11 @@ function Page() {
             </div>
             <div className="mt-16">
                 <TemplateGallery/>
+                <DocumentsTable
+                    documents={results}
+                    loadMore={loadMore}
+                    status={status}
+                />
             </div>
         </div>
     )
