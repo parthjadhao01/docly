@@ -13,7 +13,10 @@ export function Room({ children }: { children: ReactNode }) {
     const params = useParams();
 
     return (
-        <LiveblocksProvider publicApiKey={"pk_dev_mV42mnF4ohwA0NZ5yWuwyqFyvVHs0IW74-Qe-ZUERS7xg_bVhjJa5Q03s2DJTwGx"}>
+        <LiveblocksProvider
+            throttle={16}
+            authEndpoint="/api/liveblocks-auth"
+        >
             <RoomProvider id={params.documentId as string}>
                 <ClientSideSuspense fallback={
                     <FullScreenLoader label="Loading please waite .."/>
