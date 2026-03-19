@@ -30,6 +30,7 @@ import {BsFilePdf} from "react-icons/bs";
 import useEditorStore from "@/app/store/use-editor-store";
 import {Avatars} from "@/app/documents/[documentId]/avatar";
 import {OrganizationSwitcher, UserButton} from "@clerk/nextjs";
+import Inbox from "@/app/documents/[documentId]/inbox";
 
 
 function Navbar() {
@@ -221,6 +222,7 @@ function Navbar() {
             </div>
             <div className="flex gap-3 items-center pl-6">
                 <Avatars/>
+                <Inbox/>
                 <OrganizationSwitcher
                     afterCreateOrganizationUrl = "/"
                     afterLeaveOrganizationUrl = "/"
