@@ -3,7 +3,6 @@ import Editor from "@/app/documents/[documentId]/editor";
 import Toolbar from "@/app/documents/[documentId]/toolbar";
 import Navbar from "@/app/documents/[documentId]/navbar";
 import {Room} from "./room"
-import {useLiveblocksExtension} from "@liveblocks/react-tiptap";
 
 
 interface DocumentIdPageProps {
@@ -11,7 +10,7 @@ interface DocumentIdPageProps {
 }
 
 async function Document({params} : DocumentIdPageProps) {
-    const {documentId} = await params;
+    await params;
 
     return <Room>
         <div className="min-h-screen bg-[#FAFBFD]">

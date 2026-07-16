@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import {Button} from "@/components/ui/button";
 import {useInboxNotifications} from "@liveblocks/react/suspense";
-import {Separator} from "@/components/ui/separator";
 
 function Inbox() {
     return (

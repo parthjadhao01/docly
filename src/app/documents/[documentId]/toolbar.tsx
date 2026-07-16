@@ -5,7 +5,6 @@ import {
     ItalicIcon,
     ListTodoIcon,
     LucideIcon,
-    MessageSquareIcon,
     PrinterIcon,
     Redo2Icon,
     RemoveFormattingIcon,

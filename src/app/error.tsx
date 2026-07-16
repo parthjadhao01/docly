@@ -29,7 +29,7 @@ function ErrorPage({
             </div>
             <div className="flex items-center gap-x-3">
                 <Button
-                    onClick={()=>{reset}}
+                    onClick={()=> reset()}
                     className="font-medium px-6"
                 >
                     Try again

@@ -1,6 +1,5 @@
 import {Extension} from "@tiptap/react";
 import "@tiptap/extension-text-style"
-import {channel} from "node:diagnostics_channel";
 
 declare module "@tiptap/core" {
     interface Commands<ReturnType> {
