@@ -1,5 +1,4 @@
 import {Extension} from "@tiptap/react";
-import {element} from "prop-types";
 
 declare module "@tiptap/core" {
     interface Commands<ReturnType> {

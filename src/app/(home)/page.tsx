@@ -2,7 +2,7 @@
 import React from 'react'
 import Navbar from "@/app/(home)/components/navbar";
 import TemplateGallery from "@/app/(home)/components/template-gallery";
-import {usePaginatedQuery, useQuery} from "convex/react";
+import {usePaginatedQuery} from "convex/react";
 import {api} from "../../../convex/_generated/api";
 import DocumentsTable from "@/app/(home)/components/documents-table";
 import {useSerchParam} from "@/hooks/user-search-param";

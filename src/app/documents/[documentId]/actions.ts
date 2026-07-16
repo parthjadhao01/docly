@@ -15,7 +15,7 @@ export async function getUsers(){
     const { sessionClaims } = await auth();
     const clerk = await clerkClient();
     const response = await clerk.users.getUserList({
-        // @ts-ignore
+        // @ts-expect-error organizationId is not typed on sessionClaims
         organizationId : [sessionClaims?.o?.id as string]
     })
     return response.data.map((user) => ({
